@@ -2,7 +2,6 @@
 module ice_model_mod
 
 ! This file is a part of SIS2. See LICENSE.md for the license.
-
 !~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~!
 !   SIS2 is a SEA ICE MODEL for coupling through the GFDL exchange grid. SIS2  !
 ! is a revision of the original SIS with have extended capabilities, including !
