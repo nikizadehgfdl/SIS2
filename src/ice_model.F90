@@ -1389,7 +1389,7 @@ subroutine set_ocean_albedo(Ice, recalc_sun_angle, G, Time_start, Time_end, cosz
   endif
   call compute_ocean_albedo(Ice%ocean_pt, cosz_alb(:,:), Ice%albedo_vis_dir(:,:,1),&
                             Ice%albedo_vis_dif(:,:,1), Ice%albedo_nir_dir(:,:,1),&
-                            Ice%albedo_nir_dif(:,:,1), rad*G%geoLatT(isc:iec,jsc:jec) )
+                            Ice%albedo_nir_dif(:,:,1), rad*G%geoLatT(isc:iec,jsc:jec), Ice%flux_u(:,:), Ice%flux_v(:,:) )
 
 end subroutine set_ocean_albedo
 
