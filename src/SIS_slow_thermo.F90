@@ -375,7 +375,7 @@ subroutine slow_thermodynamics(IST, dt_slow, CS, OSS, FIA, XSF, IOF, G, IG)
   !
   if (CS%specified_ice) then   ! over-write changes with specifications.
     h_ice_input(:,:) = 0.0
-    call get_sea_surface(CS%Time, OSS%SST_C(isc:iec,jsc:jec), IST%part_size(isc:iec,jsc:jec,:), &
+    call get_sea_surface(CS%Time, OSS%SST_C(isc:iec,jsc:jec), IST%part_size(isc:iec,jsc:jec,1), &
                          h_ice_input(isc:iec,jsc:jec), ts_in_K=.false.)
     call get_SIS2_thermo_coefs(IST%ITV, rho_ice=rho_ice)
     do j=jsc,jec ; do i=isc,iec

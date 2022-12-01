@@ -1688,8 +1688,8 @@ subroutine ice_model_init(Ice, Time_Init, Time, Time_step_fast, Time_step_slow, 
                          ! model run and the input files.
 
   real, allocatable, dimension(:,:) :: &
-    h_ice_input, dummy  ! Temporary arrays.
-
+    h_ice_input, dummy,dummy2d  ! Temporary arrays.
+  real, allocatable, dimension(:,:,:) :: dummy3d ! Temporary arrays
   real, allocatable, target, dimension(:,:,:,:) :: t_ice_tmp, sal_ice_tmp
   real, allocatable, target, dimension(:,:,:) :: t_snow_tmp
   real, parameter :: T_0degC = 273.15 ! 0 degrees C in Kelvin
@@ -2293,6 +2293,7 @@ subroutine ice_model_init(Ice, Time_Init, Time, Time_step_fast, Time_step_slow, 
     restart_path = trim(dirs%restart_input_dir)//trim(restart_file)
 
     if (file_exist(restart_path)) then
+      call callTree_enter("ice_model_init():restore_from_restart_files"//trim(restart_file))
       ! Set values of IG%H_to_kg_m2 that will permit its absence from the restart
       ! file to be detected, and its difference from the value in this run to
       ! be corrected for.
@@ -2469,6 +2470,15 @@ subroutine ice_model_init(Ice, Time_Init, Time, Time_step_fast, Time_step_slow, 
                             query_initialized(Ice%Ice_fast_restart, 'rough_moist'))
       endif
 
+      if (specified_ice) then
+       allocate(dummy2d(isc:iec,jsc:jec))
+       allocate(dummy3d(isc:iec,jsc:jec,2))
+        call get_sea_surface(Ice%sCS%Time, Ice%sCS%OSS%SST_C(isc:iec,jsc:jec), &
+                             dummy3d,dummy2d, ice_domain=Ice%slow_domain_NH,ts_in_K=.false.)
+        deallocate(dummy2d,dummy3d)
+      endif
+
+      call callTree_leave("ice_model_init():restore_from_restart_files")
     else ! no restart file implies initialization with no ice
       sIST%part_size(:,:,:) = 0.0
       sIST%part_size(:,:,0) = 1.0
